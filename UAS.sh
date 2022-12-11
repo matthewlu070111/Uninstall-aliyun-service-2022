@@ -4,17 +4,19 @@
 # Version: 1.0.0
 # Author: Babywbx & imxiaoanag
 # Blog: https://imxiaoanag.com/?p=29
+#=====================================
 
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-sh_ver="1.0.0"
+# 检查是否为管理员权限
+[ $(id -u) != "0" ] && { echo "${Error}: 您需要管理员权限以运行该脚本"; exit 1; }
 
+# 赋予变量定义
+sh_ver="1.0.0"
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
-
-start_menu
 
 # 开始菜单
 start_menu() {
@@ -48,34 +50,7 @@ start_menu() {
     esac
 }
 
-dontwannagiveafuck(){
-get_char()
-{
-SAVEDSTTY=`stty -g`
-stty -echo
-stty cbreak
-dd if=/dev/tty bs=1 count=1 2> /dev/null
-stty -raw
-stty echo
-stty $SAVEDSTTY
-}
-
-clear
-printf "
-#######################################################################
-#                       Uninstall-aliyun-service                      #
-#          For more information please visit https://wbx1.com         #
-#######################################################################
-"
-
-echo ""
-echo "Press any key to continue!"
-char=`get_char`
-
-clear
-
-# Check if user is root
-[ $(id -u) != "0" ] && { echo "${CFAILURE}Error: You must be root to run this script${CEND}"; exit 1; }
+start_menu
 
 mkdir Uninstall-aliyun-service
 chmod 777 Uninstall-aliyun-service
@@ -123,4 +98,3 @@ printf "
 #                                 Done!                               #
 #######################################################################
 "
-}
