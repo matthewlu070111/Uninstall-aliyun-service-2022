@@ -1,9 +1,52 @@
 #!/bin/bash
-# Author: Babywbx
-# Blog: https://wbx1.com
+
+#=====================================
+# Version: 1.0.0
+# Author: Babywbx & imxiaoanag
+# Blog: https://imxiaoanag.com/?p=29
 
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
+sh_ver="1.0.0"
+
+Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
+Info="${Green_font_prefix}[信息]${Font_color_suffix}"
+Error="${Red_font_prefix}[错误]${Font_color_suffix}"
+Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
+
+# 开始菜单
+start_menu() {
+    clear
+    echo && echo -e "阿里云服务一键卸载脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
+    ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
+    ${Green_font_prefix}1.${Font_color_suffix} 轻量云服务器
+    ${Green_font_prefix}2.${Font_color_suffix} 云服务器 
+    ${Green_font_prefix}3.${Font_color_suffix} 退出脚本" && echo
+
+    echo
+    read -p "请输入数字 [0-3]:" num
+    case "$num" in
+        0)
+        ;;
+        1)
+        #light_server
+        ;;
+        2)
+        #server
+        ;;
+        3)
+        exit 1
+        ;;
+        *)
+        clear
+        echo -e "${Error}: 请输入正确数字 [0-3]"
+        sleep 5s
+        start_menu
+        ;;
+    esac
+}
+
+dontwannagiveafuck(){
 get_char()
 {
 SAVEDSTTY=`stty -g`
@@ -78,3 +121,4 @@ printf "
 #                                 Done!                               #
 #######################################################################
 "
+}
