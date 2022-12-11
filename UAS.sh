@@ -70,10 +70,9 @@ YunDun() {
 go() {
     # 检测系统架构
     os = $(uname -m)
+    export ARCH=386
     if [ os == "x86_64" ]
         export ARCH=amd64
-    else
-        export ARCH=386
     fi
 
     # 从系统服务中移除
