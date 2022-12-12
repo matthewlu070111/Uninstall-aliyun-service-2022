@@ -150,12 +150,12 @@ Update_Shell(){
 	fi
 }
 
-# 恢复默认软件下载源
+# 恢复默认软件下载源-Debian
 optimize_debian() {
     > /etc/apt/sources.list
-    deb http://deb.debian.org/debian buster main >> /etc/apt/sources.list
-    deb http://deb.debian.org/debian-security buster/updates main >> /etc/apt/sources.list
-    deb http://deb.debian.org/debian buster-updates main>> /etc/apt/sources.list
+    echo "deb http://deb.debian.org/debian buster main" >> /etc/apt/sources.list
+    echo "deb http://deb.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
+    echo "deb http://deb.debian.org/debian buster-updates main" >> /etc/apt/sources.list
     apt update -y
 }
 
