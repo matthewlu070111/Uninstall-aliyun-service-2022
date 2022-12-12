@@ -1,5 +1,5 @@
-# Uninstall-aliyun-service
-一键卸载阿里云服务 2022优化，基于babywbx的开源项目开发
+# Uninstall-aliyun-service-2022
+一键卸载阿里云服务2022优化版本，基于babywbx的开源项目开发
 <br>
 使用方法
 ```

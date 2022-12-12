@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #=====================================
+# Script: Uninstall-aliyun-service-2022
 # Version: 1.0.0
 # Author: Babywbx & imxiaoanag
 # Blog: https://imxiaoanag.com/?p=29
@@ -22,9 +23,9 @@ Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
 # 卸载云盾
 YunDun() {
     # 创建程序执行环境
-    mkdir Uninstall-aliyun-service
-    chmod 777 Uninstall-aliyun-service
-    cd Uninstall-aliyun-service
+    mkdir Uninstall_YunDun
+    chmod 777 Uninstall_YunDun
+    cd Uninstall_YunDun
 
     # 为CentOS 6/7补充运行环境
     yum install redhat-lsb -y
@@ -63,7 +64,7 @@ YunDun() {
 
     # 删除环境
     cd ..
-    rm -rf Uninstall-aliyun-service
+    rm -rf Uninstall_YunDun
 }
 
 # 卸载云监控Go版本
@@ -161,4 +162,5 @@ start_menu() {
     esac
 }
 
+# 运行开始菜单
 start_menu
