@@ -13,12 +13,31 @@ export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 [ $(id -u) != "0" ] && { echo "${Error}: 您需要管理员权限以运行该脚本"; exit 1; }
 
 # 赋予变量定义
-sh_ver="1.0.0"
+sh_ver="1.1.0"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
 Error="${Red_font_prefix}[错误]${Font_color_suffix}"
 Tip="${Green_font_prefix}[注意]${Font_color_suffix}"
+
+# 检查系统
+check_sys(){
+	if [[ -f /etc/redhat-release ]]; then
+		release="centos"
+	elif cat /etc/issue | grep -q -E -i "debian"; then
+		release="debian"
+	elif cat /etc/issue | grep -q -E -i "ubuntu"; then
+		release="ubuntu"
+	elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
+		release="centos"
+	elif cat /proc/version | grep -q -E -i "debian"; then
+		release="debian"
+	elif cat /proc/version | grep -q -E -i "ubuntu"; then
+		release="ubuntu"
+	elif cat /proc/version | grep -q -E -i "centos|red hat|redhat"; then
+		release="centos"
+    fi
+}
 
 # 卸载云盾
 YunDun() {
@@ -28,7 +47,9 @@ YunDun() {
     cd Uninstall_YunDun
 
     # 为CentOS 6/7补充运行环境
-    yum install redhat-lsb -y
+    if [[ "${release}" == "centos" ]]; then
+        yum install redhat-lsb -y
+    fi
 
     # 使用官方工具进行卸载
     wget http://update.aegis.aliyun.com/download/uninstall.sh && chmod +x uninstall.sh && ./uninstall.sh
@@ -129,14 +150,24 @@ Update_Shell(){
 	fi
 }
 
+# 恢复默认软件下载源
+optimize_debian() {
+    > /etc/apt/sources.list
+    deb http://deb.debian.org/debian buster main >> /etc/apt/sources.list
+    deb http://deb.debian.org/debian-security buster/updates main >> /etc/apt/sources.list
+    deb http://deb.debian.org/debian buster-updates main>> /etc/apt/sources.list
+    apt update -y
+}
+
 # 开始菜单
 start_menu() {
     clear
     echo && echo -e "阿里云服务一键卸载脚本 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
     ${Green_font_prefix}0.${Font_color_suffix} 升级脚本
     ${Green_font_prefix}1.${Font_color_suffix} 轻量云服务器
-    ${Green_font_prefix}2.${Font_color_suffix} 云服务器 
-    ${Green_font_prefix}3.${Font_color_suffix} 退出脚本" && echo
+    ${Green_font_prefix}2.${Font_color_suffix} 云服务器
+    ${Green_font_prefix}3.${Font_color_suffix} 恢复默认软件下载源
+    ${Green_font_prefix}4.${Font_color_suffix} 退出脚本" && echo
 
     echo
     read -p "请输入数字 [0-3]:" num
@@ -151,6 +182,13 @@ start_menu() {
         server
         ;;
         3)
+        if [[ "${release}" == "debian" || "${release}" == "ubuntu" ]]; then
+            optimize_debian
+        else
+            echo -e "${Info}: 目前仅支持Debian与Ubuntu"
+        fi
+        ;;
+        4)
         exit 1
         ;;
         *)
@@ -161,6 +199,9 @@ start_menu() {
         ;;
     esac
 }
+
+# 运行检查系统
+check_sys
 
 # 运行开始菜单
 start_menu
