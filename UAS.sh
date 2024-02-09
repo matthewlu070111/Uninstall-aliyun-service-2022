@@ -1,10 +1,9 @@
 #!/bin/bash
 
 #=====================================
-# Script: Uninstall-aliyun-service-2022
-# Version: 1.0.0
+# Script: Uninstall-aliyun-service-2024
+# Version: 1.1.1
 # Author: Babywbx & imxiaoanag
-# Blog: https://imxiaoanag.com/?p=29
 #=====================================
 
 export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
@@ -13,7 +12,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 [ $(id -u) != "0" ] && { echo "${Error}: 您需要管理员权限以运行该脚本"; exit 1; }
 
 # 赋予变量定义
-sh_ver="1.1.0"
+sh_ver="1.1.1"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
@@ -129,17 +128,17 @@ server() {
     echo -e "${Info}: 卸载已完成" && exit 1
 }
 
-#更新脚本
+# 更新脚本
 Update_Shell(){
 	echo -e "当前版本为 [ ${sh_ver} ]，开始检测最新版本..."
-	sh_new_ver=$(wget --no-check-certificate -qO- "https://raw.githubusercontent.com/matthewlu070111/Uninstall-aliyun-service-2022/main/UAS.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
+	sh_new_ver=$(wget --no-check-certificate -qO- "https://raw.githubusercontent.com/matthewlu070111/Uninstall-aliyun-service-2024/main/UAS.sh"|grep 'sh_ver="'|awk -F "=" '{print $NF}'|sed 's/\"//g'|head -1)
 	[[ -z ${sh_new_ver} ]] && echo -e "${Error} 检测最新版本失败 !" && start_menu
 	if [[ ${sh_new_ver} != ${sh_ver} ]]; then
 		echo -e "发现新版本[ ${sh_new_ver} ]，是否更新？[Y/n]"
 		read -p "(默认: y):" yn
 		[[ -z "${yn}" ]] && yn="y"
 		if [[ ${yn} == [Yy] ]]; then
-			wget -N --no-check-certificate https://raw.githubusercontent.com/matthewlu070111/Uninstall-aliyun-service-2022/main/UAS.sh && chmod +x tcp.sh
+			wget -N --no-check-certificate https://raw.githubusercontent.com/matthewlu070111/Uninstall-aliyun-service-2024/main/UAS.sh && chmod +x tcp.sh
 			echo -e "脚本已更新为最新版本[ ${sh_new_ver} ] !"
 		else
 			echo && echo "	已取消..." && echo
