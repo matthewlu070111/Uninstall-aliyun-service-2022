@@ -2,7 +2,7 @@
 
 #=====================================
 # Script: Uninstall-aliyun-service-2024
-# Version: 1.1.1
+# Version: 1.1.2
 # Author: Babywbx & imxiaoanag
 #=====================================
 
@@ -12,7 +12,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 [ $(id -u) != "0" ] && { echo "${Error}: 您需要管理员权限以运行该脚本"; exit 1; }
 
 # 赋予变量定义
-sh_ver="1.1.1"
+sh_ver="1.1.2"
 
 Green_font_prefix="\033[32m" && Red_font_prefix="\033[31m" && Green_background_prefix="\033[42;37m" && Red_background_prefix="\033[41;37m" && Font_color_suffix="\033[0m"
 Info="${Green_font_prefix}[信息]${Font_color_suffix}"
@@ -25,6 +25,8 @@ check_sys(){
 		release="centos"
 	elif cat /etc/issue | grep -q -E -i "debian"; then
 		release="debian"
+        if cat /etc/debian_version | grep -q -E -i "10"; then
+            deb_ver="10"
 	elif cat /etc/issue | grep -q -E -i "ubuntu"; then
 		release="ubuntu"
 	elif cat /etc/issue | grep -q -E -i "centos|red hat|redhat"; then
@@ -149,8 +151,8 @@ Update_Shell(){
 	fi
 }
 
-# 恢复默认软件下载源-Debian
-optimize_debian() {
+# 恢复默认软件下载源-Debian 10
+optimize_debian10() {
     > /etc/apt/sources.list
     echo "deb http://deb.debian.org/debian buster main" >> /etc/apt/sources.list
     echo "deb http://deb.debian.org/debian-security buster/updates main" >> /etc/apt/sources.list
@@ -181,10 +183,10 @@ start_menu() {
         server
         ;;
         3)
-        if [[ "${release}" == "debian" || "${release}" == "ubuntu" ]]; then
-            optimize_debian
+        if [[ "${deb_ver}" == "10" ]]; then
+            optimize_debian10
         else
-            echo -e "${Info}: 目前仅支持Debian与Ubuntu"
+            echo -e "${Info}: 目前仅支持Debian 10"
         fi
         ;;
         4)
